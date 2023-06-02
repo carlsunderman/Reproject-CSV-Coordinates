@@ -17,11 +17,6 @@ def upload():
             print (e)
     else:
         print ("no")
-    # if os.path.isfile("Downloaded_data.csv"):
-    #     try:
-    #         os.remove(file_name)
-    #     except Exception as e:
-    #         print (e)
 
     if 'file' not in request.files:
         return 'No file uploaded'
@@ -65,14 +60,6 @@ def download():
     file_name = 'Downloaded_data.csv'
     
     new_geodataframe.to_csv(file_name, index=False)
-
-    # @app.after_request
-    # def delete(response):
-    #     try:
-    #         os.remove(file_name)
-    #     except Exception as e:
-    #         print (e)
-    #     return response
 
     return send_file(file_name, as_attachment=True)
     # return render_template('conversion_complete.html', output_file = file_name)
