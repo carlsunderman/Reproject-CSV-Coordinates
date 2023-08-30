@@ -77,7 +77,7 @@ def download():
 
     os.remove(file_name)
 
-    return send_file(return_data, mimetype='application/csv', attachment_filename =f'{basename}_{suffix}.csv')
+    return send_file(return_data, mimetype='application/x-csv', attachment_filename =f'{basename}_{suffix}.csv', as_attachment=True)
 
 if __name__ == '__main__':
     app.run()
