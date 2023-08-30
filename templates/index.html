@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV Upload</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+<body>
+	<div class="container-md">
+		<div class="container-sm">
+		    <p class="fw-bold fs-4">Reproject a CSV File to a New Coordinate System</p>
+		    <form method="POST" action="/upload" enctype="multipart/form-data">
+		    {% if not dataframe_html %}
+		   	<div class="container-sm">
+        		<p class="fw-bold">After you click upload, you will define fields and spatial reference systems</p>
+        	</div>
+        	{% else %}
+        	<div class="container-sm">
+        		<p class="fw-bold">From here you can continue uploading additional files to process</p>
+        	</div>
+        	{% endif %}
+		        <input type="file" name="file" accept=".csv">
+		        <input type="submit" value="Upload">
+		    </form>
+		    
+		</div>
+	</div>
+	<br>
+	<br>
+
+    {% if dataframe_html %}
+    <div class="container-md">
+    	<div class="container-sm">
+        	<p class="fw-bold">Select the XY fields</p>
+        </div>
+
+
+        <form method="POST" action="/download">
+
+            <div class="container-sm">
+	           <label for="long">Select Longitude (X) Value: </label>
+	            <select class="form-select" name="long" id="long">
+	                {% for column in columns %}
+	                    <option value="{{ column }}">{{ column }}</option>
+	                {% endfor %}
+	            </select>
+            </div>
+            <br>
+			<div class="container-sm">
+	            <label for="lat">Select Latitude (Y) Value: </label>
+	            <select class="form-select" name="lat" id="lat">
+	                {% for column in columns %}
+	                    <option value="{{ column }}">{{ column }}</option>
+	                {% endfor %}
+	            </select>
+        	</div>
+            <br>
+            <div class="container-sm">
+            	<p class="fw-bold">Select Input and Output Spatial Reference</p>
+				<p class="fw">You can find EPSG references at either: 
+				<a href="https://spatialreference.org/">SpatialReference.org</a> or
+				<a href="https://epsg.io/">EPSG.io</a></p>
+        	</div>
+			<div class="container-sm">
+	            <label for="srcEPSG">Source EPSG: </label>
+	            <input type="text" name="srcEPSG" placeholder= "example:4326" id="srcEPSG">
+
+	            <label for="newEPSG">New EPSG: </label>
+	            <input type="text" name="newEPSG" placeholder= "example:32040" id="newEPSG">
+            </div>
+            <br>
+            <br>
+			<div class="container-sm">
+				<p class="fw-bold">Depending on how large the csv is, this process could take several minutes</p>
+            	<button type="submit">Download CSV</button>
+            </div>
+<!--             <label for="outputFilename">Output Filename:</label>
+            <input type="text" name="outputFilename" placeholder= "Downloaded_data.csv" id="outputFilename"> -->
+
+            
+<!--             <div class="container-sm"> -->
+            	<input class="table" type="hidden" name="dataframe_html" value="{{ dataframe_html }}">
+           <!-- 	 {{ dataframe_html|safe }}
+			</div> -->
+        </form>
+      </div>
+    {% endif %}
+</body>
+</html>
