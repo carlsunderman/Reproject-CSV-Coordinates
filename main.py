@@ -65,7 +65,6 @@ def download():
     new_geodataframe[f'Y_{destEPSG}'] = new_geodataframe.geometry.y
     new_geodataframe.drop(columns=['geometry'], inplace=True)
 
-    #file_name = f'{str(uuid.uuid4())}.csv'
     file_name = f'/tmp/{str(uuid.uuid4())}.csv'
         
     new_geodataframe.to_csv(file_name, index=False)
@@ -79,7 +78,6 @@ def download():
     os.remove(file_name)
 
     return send_file(return_data, mimetype='application/csv',
-#                     download_name =f'{"_".join([basename, suffix])}.csv')
                      attachment_filename =f'{"_".join([basename, suffix])}.csv')
 
 if __name__ == '__main__':
